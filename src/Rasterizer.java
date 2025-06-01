@@ -7,12 +7,15 @@ public class Rasterizer {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                int r = x;
-                int g = 255 - y;
-                int b = (x + y) / 2;
-                int rgb = (r << 16) | (g << 8) | b;
+                int r = x*255/width;
+                int g = y*255/height;
+                int rgb = (r << 16) | (g << 8);
                 image.setRGB(x, y, rgb);
             }
         }
+    }
+
+
+    public static void updateImage(BufferedImage image) {
     }
 }
