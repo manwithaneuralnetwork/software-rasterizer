@@ -10,7 +10,10 @@ public class Main {
 
     public static void main(String[] args) {
         Rasterizer.createTestImage(image);
+        setupScreen();
+    }
 
+    static void setupScreen() {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Rasterizer Output");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
