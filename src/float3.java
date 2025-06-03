@@ -15,4 +15,15 @@ public class float3 {
     public float2 toFloat2(){
         return new float2(x, y);
     }
+
+    public float magnitude() {
+        return (float)Math.sqrt(x * x + y * y + z * z);
+    }
+
+    public float3 add(float3 f) {
+        x += f.x;
+        y += f.y;
+        z += f.z;
+        return this;
+    }
 }
