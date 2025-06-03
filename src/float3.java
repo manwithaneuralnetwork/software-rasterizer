@@ -6,4 +6,13 @@ public class float3 {
         this.y = y;
         this.z = z;
     }
+
+    public float3(float2 f2) {
+        this.x = f2.x;
+        this.y = f2.y;
+    }
+
+    public float2 toFloat2(){
+        return new float2(x, y);
+    }
 }
