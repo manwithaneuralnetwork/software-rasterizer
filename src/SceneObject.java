@@ -24,19 +24,15 @@ public class SceneObject {
             a = Maths.RotateY(a, rotation.y);
             b = Maths.RotateY(b, rotation.y);
             c = Maths.RotateY(c, rotation.y);
-            System.out.println("New");
-            System.out.println(rotation.y);
 
             a = Maths.RotateX(a, rotation.x);
             b = Maths.RotateX(b, rotation.x);
             c = Maths.RotateX(c, rotation.x);
-            System.out.println(rotation.x);
 
             // Apply translation
             a = a.add(position);
             b = b.add(position);
             c = c.add(position);
-            System.out.println(position.x + " " + position.y + " " + position.z);
 
             transformed.add(new Triangle(a, b, c, t.color));
         }

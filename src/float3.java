@@ -26,4 +26,11 @@ public class float3 {
         z += f.z;
         return this;
     }
+
+    public float3 divide(float factor) {
+        x /= factor;
+        y /= factor;
+        z /= factor;
+        return this;
+    }
 }

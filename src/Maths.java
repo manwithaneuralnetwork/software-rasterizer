@@ -1,6 +1,4 @@
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Maths {
     // vector operations
@@ -19,13 +17,14 @@ public class Maths {
     }
 
     // returns a vector from b to a
-    public static float2 GetVector(float2 a, float2 b) {
+    public static float2 GetVector2D(float2 a, float2 b) {
         return new float2(a.x - b.x, a.y - b.y);
     }
+    public static float3 GetVector3D(float3 a, float3 b) { return new float3(a.x - b.x, a.y - b.y, a.z - b.z); }
 
     public static boolean IsPointOnRightSideOfLine(float2 a, float2 b, float2 p) {
-        float2 ap = GetVector(a, p);
-        float2 abPerp = Perpendicular(GetVector(a, b));
+        float2 ap = GetVector2D(a, p);
+        float2 abPerp = Perpendicular(GetVector2D(a, b));
         return Dot(ap, abPerp) >= 0;
     }
 
@@ -103,6 +102,13 @@ public class Maths {
         float3 c = WorldToScreenSpace(t.c, cam, image);
 
         return new Triangle(a, b, c, t.color);
+    }
+
+    public static boolean IsTriangleBackFace(Triangle t, Camera c) {
+        float2 ab = Maths.GetVector2D(t.b.toFloat2(), t.a.toFloat2());
+        float2 ac = Maths.GetVector2D(t.c.toFloat2(), t.a.toFloat2());
+        float cross = ab.x * ac.y - ab.y * ac.x;
+        return cross > 0;
     }
 
     public static float3 RotateX(float3 v, float angleRad) {

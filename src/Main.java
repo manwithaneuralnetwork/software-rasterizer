@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,13 +14,21 @@ public class Main {
     static Camera camera = new Camera();
     static ArrayList<SceneObject> scene = new ArrayList<>();
     static SceneObject cube;
+    static SceneObject suzanne;
+    static Player player;
 
     static {
         try {
             ObjModel cubeModel = ObjParser.loadFromOBJ("resources/cube.obj");
             float3 cubePosition = new float3(0.0f, 0.0f, -4.0f);
             cube = new SceneObject(cubeModel, cubePosition);
-            scene.add(cube);
+            ObjModel suzanneModel = ObjParser.loadFromOBJ("resources/suzanne.obj");
+            float3 suzannePosition = new float3(0.0f, 0.0f, -3.0f);
+            suzanne = new SceneObject(suzanneModel, suzannePosition);
+            player = new Player(suzanne);
+            scene.add(suzanne);
+//            player = new Player(cube);
+//            scene.add(cube);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -31,6 +41,7 @@ public class Main {
 
     static void setupScreen() {
         SwingUtilities.invokeLater(() -> {
+            // display setup
             JFrame frame = new JFrame("Rasterizer Output");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -40,7 +51,11 @@ public class Main {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
 
+            setupPlayer(frame);
+
+            // initiates frame generation
             new Timer(16, e -> {
+                player.update();
                 Rasterizer.Render(camera, image, scene);
                 panel.repaint();
             }).start();
@@ -64,5 +79,20 @@ public class Main {
         public Dimension getPreferredSize() {
             return new Dimension(img.getWidth(), img.getHeight());
         }
+    }
+    private static void setupPlayer(JFrame frame) {
+        frame.setFocusable(true);
+        frame.requestFocusInWindow();
+        frame.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                player.keyPressed(e.getKeyCode());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                player.keyReleased(e.getKeyCode());
+            }
+        });
     }
 }
