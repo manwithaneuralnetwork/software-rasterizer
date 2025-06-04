@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 public class Rasterizer {
     public static void Render(Camera cam, BufferedImage image, ArrayList<SceneObject> scene) {
+
+        // transform from world to camera space
         ArrayList<Triangle> cameraSpaceTriangles = new ArrayList<>();
         float[][] camViewMatrix = cam.getViewMatrix();
-        // transform from world to camera space
         for (SceneObject sceneObject : scene) {
             ArrayList<Triangle> triangles = sceneObject.getTransformedTriangles();
             for (Triangle t : triangles) {
@@ -20,7 +21,7 @@ public class Rasterizer {
         cameraSpaceTriangles.sort((t1, t2) -> {
             float z1 = (t1.a.z + t1.b.z + t1.c.z) / 3f;
             float z2 = (t2.a.z + t2.b.z + t2.c.z) / 3f;
-            return Float.compare(z1, z2);
+            return Float.compare(z2, z1);
         });
 
         // project from camera space to screen

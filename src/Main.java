@@ -13,22 +13,16 @@ public class Main {
     static BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
     static Camera camera = new Camera();
     static ArrayList<SceneObject> scene = new ArrayList<>();
-    static SceneObject cube;
-    static SceneObject suzanne;
+    static SceneObject obj;
     static Player player;
 
     static {
         try {
-            ObjModel cubeModel = ObjParser.loadFromOBJ("resources/cube.obj");
-            float3 cubePosition = new float3(0.0f, 0.0f, -4.0f);
-            cube = new SceneObject(cubeModel, cubePosition);
-            ObjModel suzanneModel = ObjParser.loadFromOBJ("resources/suzanne.obj");
-            float3 suzannePosition = new float3(0.0f, 0.0f, -3.0f);
-            suzanne = new SceneObject(suzanneModel, suzannePosition);
-            player = new Player(suzanne);
-            scene.add(suzanne);
-//            player = new Player(cube);
-//            scene.add(cube);
+            ObjModel model = ObjParser.loadFromOBJ("resources/queen.obj");
+            float3 pos = new float3(0.0f, -0.75f, -2.0f);
+            obj = new SceneObject(model, pos);
+            player = new Player(obj);
+            scene.add(obj);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

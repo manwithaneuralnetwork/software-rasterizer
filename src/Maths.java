@@ -12,8 +12,11 @@ public class Maths {
         // 90° clockwise rotation
         return new float2(v.y, -v.x);
     }
-    public static float2 Opposite(float2 v) {
+    public static float2 Opposite2D(float2 v) {
         return new float2(-v.x, -v.y);
+    }
+    public static float3 Opposite3D(float3 v) {
+        return new float3(-v.x, -v.y, -v.z);
     }
 
     // returns a vector from b to a
@@ -104,11 +107,14 @@ public class Maths {
         return new Triangle(a, b, c, t.color);
     }
 
-    public static boolean IsTriangleBackFace(Triangle t, Camera c) {
-        float2 ab = Maths.GetVector2D(t.b.toFloat2(), t.a.toFloat2());
-        float2 ac = Maths.GetVector2D(t.c.toFloat2(), t.a.toFloat2());
-        float cross = ab.x * ac.y - ab.y * ac.x;
-        return cross > 0;
+    public static boolean IsTriangleBackFace(Triangle t, Camera cam) {
+        float3 ab = Maths.GetVector3D(t.b, t.a);
+        float3 ac = Maths.GetVector3D(t.c, t.a);
+        float3 normal = Maths.Opposite3D(Maths.Cross(ab, ac));
+        normal = Maths.Normalize(normal);
+
+        float3 toCamera = Maths.GetVector3D(cam.position, t.a);
+        return Maths.Dot(normal, toCamera) < -1.0;
     }
 
     public static float3 RotateX(float3 v, float angleRad) {

@@ -30,7 +30,6 @@ public class ObjParser {
                     indices[i - 1] = Integer.parseInt(token) - 1;
                 }
 
-                // Triangulate polygons with >3 sides
                 for (int i = 1; i < indices.length - 1; i++) {
                     float3 a = vertices.get(indices[0]);
                     float3 b = vertices.get(indices[i]);
