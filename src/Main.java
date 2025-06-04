@@ -19,8 +19,8 @@ public class Main {
     static {
         try {
             ObjModel model = ObjParser.loadFromOBJ("resources/queen.obj");
-            float3 pos = new float3(0.0f, -0.75f, -2.0f);
-            obj = new SceneObject(model, pos);
+            float3 pos = new float3(0.0f, -0.80f, -2.0f);
+            obj = new SceneObject(model, pos, "resources/queentex.png");
             player = new Player(obj);
             scene.add(obj);
         } catch (IOException e) {

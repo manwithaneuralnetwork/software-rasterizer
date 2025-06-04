@@ -75,7 +75,7 @@ public class Maths {
         float3 b = TransformPoint(viewMatrix, t.b);
         float3 c = TransformPoint(viewMatrix, t.c);
 
-        return new Triangle(a, b, c, t.color);
+        return new Triangle(a, b, c, t.uvA, t.uvB, t.uvC, t.color);
     }
 
     public static float3 TransformPoint(float[][] m, float3 v) {
@@ -104,7 +104,15 @@ public class Maths {
         float3 b = WorldToScreenSpace(t.b, cam, image);
         float3 c = WorldToScreenSpace(t.c, cam, image);
 
-        return new Triangle(a, b, c, t.color);
+        return new Triangle(a, b, c, t.uvA, t.uvB, t.uvC, t.color);
+    }
+
+    public static float[] ComputeBarycentric(float2 p, float2 a, float2 b, float2 c) {
+        float denom = ((b.y - c.y)*(a.x - c.x) + (c.x - b.x)*(a.y - c.y));
+        float w1 = ((b.y - c.y)*(p.x - c.x) + (c.x - b.x)*(p.y - c.y)) / denom;
+        float w2 = ((c.y - a.y)*(p.x - c.x) + (a.x - c.x)*(p.y - c.y)) / denom;
+        float w3 = 1 - w1 - w2;
+        return new float[] {w1, w2, w3};
     }
 
     public static boolean IsTriangleBackFace(Triangle t, Camera cam) {

@@ -1,15 +1,25 @@
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 
 public class SceneObject {
     public ObjModel model;
     public float3 position;
     public float3 rotation;
+    public BufferedImage texture;
     public float scale = 1.0f;
 
-    public SceneObject(ObjModel model, float3 position) {
+    public SceneObject(ObjModel model, float3 position, String texture) {
         this.model = model;
         this.position = position;
         this.rotation = new float3(0, 0, 0);
+        try{
+            this.texture = ImageIO.read(new File(texture));
+        }
+        catch (Exception e){
+            System.out.println("Error loading texture");
+        }
     }
 
     public ArrayList<Triangle> getTransformedTriangles() {
@@ -34,7 +44,7 @@ public class SceneObject {
             b = b.add(position);
             c = c.add(position);
 
-            transformed.add(new Triangle(a, b, c, t.color));
+            transformed.add(new Triangle(a, b, c, t.uvA, t.uvB, t.uvC, t.color));
         }
 
         return transformed;

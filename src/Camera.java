@@ -24,11 +24,11 @@ public class Camera {
         float ty = -Maths.Dot(up, position);
         float tz = -Maths.Dot(forward, position);
 
-        return new float[][] {
-                { right.x,   up.x,   forward.x,   0 },
-                { right.y,   up.y,   forward.y,   0 },
-                { right.z,   up.z,   forward.z,   0 },
-                {   tx,       ty,       tz,       1 }
+        return new float[][]{
+                {right.x, up.x, forward.x, 0},
+                {right.y, up.y, forward.y, 0},
+                {right.z, up.z, forward.z, 0},
+                {tx, ty, tz, 1}
         };
     }
 }
