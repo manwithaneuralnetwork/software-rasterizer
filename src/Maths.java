@@ -105,10 +105,24 @@ public class Maths {
         return new Triangle(a, b, c, t.color);
     }
 
-    public static boolean isBackface(Triangle t) {
-        float2 ab = Maths.GetVector(t.b.toFloat2(), t.a.toFloat2());
-        float2 ac = Maths.GetVector(t.c.toFloat2(), t.a.toFloat2());
-        float cross = ab.x * ac.y - ab.y * ac.x;
-        return cross < 0;
+    public static float3 RotateX(float3 v, float angleRad) {
+        float cos = (float)Math.cos(angleRad);
+        float sin = (float)Math.sin(angleRad);
+        return new float3(
+                v.x,
+                v.y * cos - v.z * sin,
+                v.y * sin + v.z * cos
+        );
     }
+
+    public static float3 RotateY(float3 v, float angleRad) {
+        float cos = (float)Math.cos(angleRad);
+        float sin = (float)Math.sin(angleRad);
+        return new float3(
+                v.x * cos + v.z * sin,
+                v.y,
+                -v.x * sin + v.z * cos
+        );
+    }
+
 }

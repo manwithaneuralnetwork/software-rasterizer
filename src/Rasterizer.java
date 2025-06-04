@@ -2,11 +2,15 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Rasterizer {
-    public static void Render(Camera cam, BufferedImage image, ArrayList<Triangle> triangles) {
+    public static void Render(Camera cam, BufferedImage image, ArrayList<SceneObject> scene) {
         ArrayList<Triangle> cameraSpaceTriangles = new ArrayList<>();
-        for (Triangle t : triangles) {
-            Triangle cameraT = Maths.TransformTriangleToCameraSpace(t, cam.getViewMatrix());
-            cameraSpaceTriangles.add(cameraT);
+        float[][] camViewMatrix = cam.getViewMatrix();
+        for (SceneObject sceneObject : scene) {
+            ArrayList<Triangle> triangles = sceneObject.getTransformedTriangles();
+            for (Triangle t : triangles) {
+                Triangle cameraT = Maths.TransformTriangleToCameraSpace(t, camViewMatrix);
+                cameraSpaceTriangles.add(cameraT);
+            }
         }
 
         cameraSpaceTriangles.sort((t1, t2) -> {

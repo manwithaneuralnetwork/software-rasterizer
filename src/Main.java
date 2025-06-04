@@ -10,24 +10,22 @@ public class Main {
 
     static BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_3BYTE_BGR);
     static Camera camera = new Camera();
-    static ObjModel cube;
+    static ArrayList<SceneObject> scene = new ArrayList<>();
+    static SceneObject cube;
 
     static {
         try {
-            cube = ObjParser.loadFromOBJ("resources/cube.obj");
+            ObjModel cubeModel = ObjParser.loadFromOBJ("resources/cube.obj");
+            float3 cubePosition = new float3(0.0f, 0.0f, -4.0f);
+            cube = new SceneObject(cubeModel, cubePosition);
+            scene.add(cube);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        for (Triangle t : cube.triangles) {
-            float3 offset = new float3(0, 0, -1);
-            t.a = t.a.add(offset);
-            t.b = t.b.add(offset);
-            t.c = t.c.add(offset);
-        }
-        Rasterizer.Render(camera, image, cube.triangles);
+    public static void main(String[] args) {
+        Rasterizer.Render(camera, image, scene);
         setupScreen();
     }
 
@@ -42,10 +40,10 @@ public class Main {
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
 
-//            new Timer(16, e -> {
-//                Rasterizer.Render(camera, image, cube.triangles);
-//                panel.repaint();
-//            }).start();
+            new Timer(16, e -> {
+                Rasterizer.Render(camera, image, scene);
+                panel.repaint();
+            }).start();
         });
     }
 
