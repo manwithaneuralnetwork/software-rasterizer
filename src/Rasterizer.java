@@ -51,6 +51,10 @@ public class Rasterizer {
                 for (int x = minX; x <= maxX; x++) {
                     float2 p = new float2(x, y);
                     if (Maths.IsPointWithinTriangle(p, t)) {
+                        if (texture == null) {
+                            image.setRGB(x, y, t.color);
+                            continue;
+                        }
                         float[] bary = Maths.ComputeBarycentric(p, t.a.toFloat2(), t.b.toFloat2(), t.c.toFloat2());
 
                         float izA = 1.0f / t.a.z;
